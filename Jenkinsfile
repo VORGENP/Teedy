@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo '>>> 开始编译项目并安装依赖...'
                 // 解释：clean清理旧数据，install将模块安装到本地仓库以解决依赖问题，-DskipTests跳过测试加快速度
-                bat 'mvn clean install -DskipTests'
+                bat 'mvn clean install -Dmaven.test.skip=true'
             }
         }
 
