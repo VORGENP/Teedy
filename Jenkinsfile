@@ -9,7 +9,7 @@ pipeline {
         stage('Maven构建') {
             steps {
                 echo '开始编译项目...'
-                bat 'mvn clean package -DskipTests'
+                bat 'mvn clean install -DskipTests'
             }
         }
         
