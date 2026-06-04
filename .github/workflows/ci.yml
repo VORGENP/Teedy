@@ -11,32 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. 拉取代码 (升级到 v4)
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 👇 关键步骤：显式设置 JDK 11
+      # 2. 设置 JDK 11 (保持 v3 即可，主要是为了指定 java-version)
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin' # 推荐使用 Temurin (Eclipse Adoptium)
 
-      # 👇 可选：缓存 Maven 依赖以加速构建
+      # 3. 缓存 Maven 依赖 (升级到 v4，加速构建)
       - name: Cache Maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # 👇 执行 Maven 编译和打包
+      # 4. 执行 Maven 编译和打包
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # 👇 可选：上传构建产物（如 WAR/JAR 包）
+      # 5. 上传构建产物 (关键修改：已升级到 v4)
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: teedy-build-output
-          path: target/*.war # 根据你项目的实际输出文件名调整
+          path: target/*.war # 确保这里匹配你实际生成的 war 包名称
